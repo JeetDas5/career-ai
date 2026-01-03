@@ -1,72 +1,67 @@
 "use client";
 
 import StatusSelect from "./StatusSelect";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface EmailTableProps {
-    emails: {
-      _id: string;
-      company?: string;
-      role?: string;
-      status?: string;
-      confidence?: number;
-      receivedAt?: string;
-    }[]
+  emails: {
+    _id: string;
+    company?: string;
+    role?: string;
+    status?: string;
+    receivedAt?: string;
+  }[];
 }
 
 export default function EmailTable({ emails }: EmailTableProps) {
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border rounded-lg">
-        <thead className="bg-muted">
-          <tr>
-            <th className="p-3 text-left">Company</th>
-            <th className="p-3 text-left">Role</th>
-            <th className="p-3">Status</th>
-            <th className="p-3">Confidence</th>
-            <th className="p-3">Received</th>
-          </tr>
-        </thead>
-
-        <tbody>
+    <div className="rounded-md border">
+      <Table>
+        <TableCaption>A list of your job application emails.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[200px]">Company</TableHead>
+            <TableHead>Role</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead className="text-right">Received</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {emails.map((email) => {
             const status = email.status ?? "APPLIED";
-            const confidenceDisplay =
-              email.confidence != null
-                ? `${(email.confidence * 100).toFixed(0)}%`
-                : "—";
             const receivedDisplay = email.receivedAt
-              ? new Date(email.receivedAt).toLocaleDateString()
+              ? new Date(email.receivedAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })
               : "—";
 
             return (
-              <tr
-                key={email._id}
-                className="border-t hover:bg-accent"
-              >
-                <td className="p-3 font-medium">
+              <TableRow key={email._id}>
+                <TableCell className="font-medium">
                   {email.company || "—"}
-                </td>
-
-                <td className="p-3">
-                  {email.role || "—"}
-                </td>
-
-                <td className="p-3">
+                </TableCell>
+                <TableCell>{email.role || "—"}</TableCell>
+                <TableCell>
                   <StatusSelect email={{ ...email, status }} />
-                </td>
-
-                <td className="p-3 text-center">
-                  {confidenceDisplay}
-                </td>
-
-                <td className="p-3 text-sm text-muted-foreground">
+                </TableCell>
+                <TableCell className="text-right text-muted-foreground">
                   {receivedDisplay}
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             );
           })}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 }

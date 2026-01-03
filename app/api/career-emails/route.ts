@@ -43,7 +43,6 @@ export async function GET(req: NextRequest) {
       .sort({ receivedAt: -1 })
       .limit(100);
 
-    console.log("Fetched career emails with filter:", filter);
 
     return NextResponse.json({ success: true, data: emails });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

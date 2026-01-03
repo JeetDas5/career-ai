@@ -27,11 +27,6 @@ const CareerEmailSchema = new mongoose.Schema(
       required: true,
     },
 
-    isRead: {
-      type: Boolean,
-      default: false,
-    },
-
     rawPayload: Object,
   },
   { timestamps: true }
