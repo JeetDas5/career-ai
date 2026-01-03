@@ -52,7 +52,8 @@ export default function EmailTable({ emails }: EmailTableProps) {
                 </TableCell>
                 <TableCell>{email.role || "—"}</TableCell>
                 <TableCell>
-                  <StatusSelect email={{ ...email, status }} />
+                  {/* <StatusSelect email={{ ...email, status }} /> */}
+                  {status}
                 </TableCell>
                 <TableCell className="text-right text-muted-foreground">
                   {receivedDisplay}
