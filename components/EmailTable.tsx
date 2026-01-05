@@ -14,12 +14,25 @@ import {
 interface EmailTableProps {
   emails: {
     _id: string;
+    senderName?: string;
+    senderEmail?: string;
+    interview?: string;
     company?: string;
     role?: string;
     status?: string;
     receivedAt?: string;
   }[];
 }
+
+const normaliseDateAndTime = (date: string) => {
+  return new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  });
+};
 
 export default function EmailTable({ emails }: EmailTableProps) {
   return (
@@ -32,17 +45,14 @@ export default function EmailTable({ emails }: EmailTableProps) {
             <TableHead>Role</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Received</TableHead>
+            <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {emails.map((email) => {
             const status = email.status ?? "APPLIED";
             const receivedDisplay = email.receivedAt
-              ? new Date(email.receivedAt).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })
+              ? normaliseDateAndTime(email.receivedAt)
               : "—";
 
             return (
@@ -57,6 +67,15 @@ export default function EmailTable({ emails }: EmailTableProps) {
                 </TableCell>
                 <TableCell className="text-right text-muted-foreground">
                   {receivedDisplay}
+                </TableCell>
+                <TableCell className="text-right">
+                  {email.interview ? (
+                    <span className="text-muted-foreground">
+                      {normaliseDateAndTime(email.interview)}
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </TableCell>
               </TableRow>
             );
