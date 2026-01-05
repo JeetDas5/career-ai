@@ -7,6 +7,8 @@ const CareerEmailSchema = new mongoose.Schema(
       required: true,
     },
 
+    userEmail: String,
+
     senderName: String,
     senderEmail: String,
 
@@ -21,6 +23,8 @@ const CareerEmailSchema = new mongoose.Schema(
       enum: ["APPLIED", "SHORTLISTED", "INTERVIEW", "REJECTED", "OFFER"],
       default: "APPLIED",
     },
+
+    interview: Date,
 
     receivedAt: {
       type: Date,
